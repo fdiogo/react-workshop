@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+
+import Generic from './media-types/Generic';
 
 function SearchResults(props) {
     const { query } = props;
@@ -18,6 +20,16 @@ function SearchResults(props) {
             .then(data => setData(data));
     }, [query, page]);
 
+    const cards = useMemo(() => {
+        if (!data) {
+            return null;
+        }
+
+        return data.results.map(media => (
+            <Generic key={media.id} data={media} />
+        ));
+    }, [data]);
+
     if (!query || !data) {
         return null;
     }
@@ -31,11 +43,7 @@ function SearchResults(props) {
                 </span>
                 {data && <span>{data.total_results} results</span>}
             </div>
-            <div className="search-results-body">
-                {data.results.map(show => (
-                    <div key={show.id}>{show.name}</div>
-                ))}
-            </div>
+            <div className="search-results-body">{cards}</div>
         </div>
     );
 }

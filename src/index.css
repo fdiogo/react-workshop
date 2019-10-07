@@ -10,16 +10,17 @@ body {
 :root {
   --primary-color: #398278;
   --secondary-color: #fff;
+  --tertiary-color: #dedede;
+  --accent-color: #734aa0;
 }
 
 * {
   box-sizing: border-box;
-  color: var(--secondary-color);
 }
 
 html, body, #root, .app {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,8 +28,9 @@ html, body, #root, .app {
 
 body {
   background: linear-gradient(to right, #536976, #292e49);
-  padding: 50px 20px 0px;
+  padding: 50px 20px 40px;
   max-width: 1024px;
+  color: var(--secondary-color);
 }
 
 input {
@@ -52,6 +54,7 @@ button {
   padding: 0px 20px;
   background: var(--primary-color);
   cursor: pointer;
+  color: var(--secondary-color);
 }
 
 .app {
@@ -72,5 +75,84 @@ button {
   justify-content: space-between;
   border-bottom: 1px solid var(--secondary-color);
   padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+.search-results-body {
+  width: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  justify-content: space-around;
+  grid-auto-rows: 270px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
+  grid-gap: 20px;
+}
+
+.media {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-color);
+  padding: 10px 10px 36px;
+  color: var(--secondary-color);
+  cursor: pointer;
+  box-shadow: 2px 2px 3px rgb(66, 66, 66)
+}
+
+.media-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.media-poster {
+  position: relative;
+  width: 100%;
+  height: 80%;
   margin-bottom: 10px;
+  background-color: white;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.media-poster::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+}
+
+.media-type {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  font-size: 16px;
+  padding: 5px;
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+  margin-top: auto;
+  text-align: center;
+}
+
+.media-votes {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: var(--tertiary-color);
+  z-index: 1;
+}
+
+.media-votes-average {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-size: 14px;
 }
