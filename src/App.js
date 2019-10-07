@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SearchResults from './components/SearchResults';
 
 function App() {
     const [inputValue, setInputValue] = useState('');
@@ -20,6 +21,8 @@ function App() {
                 <button type="submit">Search</button>
             </form>
             {query && <h1>Results for '{query}'</h1>}
+
+            <SearchResults query={query} />
         </div>
     );
 }
