@@ -3,7 +3,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Generic from './media-types/Generic';
 
 function SearchResults(props) {
-    const { query } = props;
+    const { query, configuration } = props;
 
     const [page, setPage] = useState(1);
     const [data, setData] = useState(null);
@@ -26,9 +26,13 @@ function SearchResults(props) {
         }
 
         return data.results.map(media => (
-            <Generic key={media.id} data={media} />
+            <Generic
+                key={media.id}
+                data={media}
+                configuration={configuration}
+            />
         ));
-    }, [data]);
+    }, [configuration, data]);
 
     if (!query || !data) {
         return null;

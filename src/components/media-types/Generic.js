@@ -3,7 +3,10 @@ import React from 'react';
 import Star from '../icons/Star';
 
 function Generic(props) {
-    const { data } = props;
+    const { data, configuration } = props;
+    const {
+        images: { base_url }
+    } = configuration;
     const {
         name,
         title,
@@ -21,7 +24,7 @@ function Generic(props) {
             </span>
             <img
                 className="media-poster"
-                src={poster_path || backdrop_path}
+                src={`${base_url}/original${poster_path || backdrop_path}`}
                 alt={name || title}
             />
             <span className="media-title">{name || title}</span>

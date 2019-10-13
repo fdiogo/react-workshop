@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchResults from './components/SearchResults';
 
 function App() {
+    const [configuration, setConfiguration] = useState(null);
     const [inputValue, setInputValue] = useState('');
     const [query, setQuery] = useState(null);
 
@@ -9,6 +10,12 @@ function App() {
         event.preventDefault();
         setQuery(inputValue);
     };
+
+    useEffect(() => {
+        fetch(`https://reactworkshop-api.herokuapp.com/3/configuration`)
+            .then(response => response.json())
+            .then(data => setConfiguration(data));
+    }, []);
 
     return (
         <div className="app">
@@ -22,7 +29,7 @@ function App() {
             </form>
             {query && <h1>Results for '{query}'</h1>}
 
-            <SearchResults query={query} />
+            <SearchResults query={query} configuration={configuration} />
         </div>
     );
 }

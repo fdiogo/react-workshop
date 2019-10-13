@@ -29,8 +29,11 @@ html, body, #root, .app {
 body {
   background: linear-gradient(to right, #536976, #292e49);
   padding: 50px 20px 40px;
-  max-width: 1024px;
   color: var(--secondary-color);
+}
+
+#root {
+  max-width: 1024px;
 }
 
 input {
@@ -55,6 +58,24 @@ button {
   background: var(--primary-color);
   cursor: pointer;
   color: var(--secondary-color);
+}
+
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+
+h2 {
+  font-size: 16px;
 }
 
 .app {
@@ -83,8 +104,8 @@ button {
   display: grid;
   grid-auto-flow: row;
   justify-content: space-around;
-  grid-auto-rows: 270px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
+  grid-auto-rows: 380px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 210px));
   grid-gap: 20px;
 }
 
@@ -109,7 +130,6 @@ button {
 .media-poster {
   position: relative;
   width: 100%;
-  height: 80%;
   margin-bottom: 10px;
   background-color: white;
   flex-shrink: 0;
@@ -146,6 +166,7 @@ button {
   top: 10px;
   color: var(--tertiary-color);
   z-index: 1;
+  stroke: #3f4e4c;
 }
 
 .media-votes-average {
@@ -155,4 +176,67 @@ button {
   transform: translate(-50%, -50%);
   color: black;
   font-size: 14px;
+}
+
+.tv .media-type {
+  background-color: #ffec00;
+  color: #444444;
+}
+
+.tv-details {
+  display: flex;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.tv-details-poster {
+  width: 300px;
+  height: 450px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.tv-details-status {
+  display: flex;
+  min-height: 18px;
+}
+
+.tv-details-seasons {
+  display: flex;
+  width: 100%;
+}
+
+.tv-details-season {
+  background-color: #734aa0;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  font-size: smaller;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: #323338b8;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #3f5855;
 }
