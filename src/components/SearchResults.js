@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
+import Tv from './media-types/tv';
 import Generic from './media-types/Generic';
 
 function SearchResults(props) {
@@ -25,13 +26,26 @@ function SearchResults(props) {
             return null;
         }
 
-        return data.results.map(media => (
-            <Generic
-                key={media.id}
-                data={media}
-                configuration={configuration}
-            />
-        ));
+        return data.results.map(media => {
+            switch (media.media_type) {
+                case 'tv':
+                    return (
+                        <Tv
+                            key={media.id}
+                            data={media}
+                            configuration={configuration}
+                        />
+                    );
+                default:
+                    return (
+                        <Generic
+                            key={media.id}
+                            data={media}
+                            configuration={configuration}
+                        />
+                    );
+            }
+        });
     }, [configuration, data]);
 
     if (!query || !data) {

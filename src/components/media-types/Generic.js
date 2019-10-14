@@ -15,7 +15,6 @@ function Generic(props) {
         vote_average,
         media_type
     } = data;
-
     return (
         <div className="media">
             <span className="media-votes">

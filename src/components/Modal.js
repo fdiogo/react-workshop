@@ -7,7 +7,7 @@ function Modal(props) {
     return ReactDOM.createPortal(
         <div className="modal">
             <div className="modal-overlay" />
-            <div className="modal-content">{children}</div>;
+            <div className="modal-content">{children}</div>
         </div>,
         document.getElementsByTagName('body')[0]
     );
