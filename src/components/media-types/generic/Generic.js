@@ -1,6 +1,7 @@
 import React from 'react';
+import './Generic.css';
 
-import Rating from '../Rating';
+import Rating from '../../Rating';
 
 function Generic(props) {
     const { data, configuration } = props;
@@ -14,7 +15,8 @@ function Generic(props) {
         backdrop_path,
         vote_average,
         first_air_date,
-        release_date
+        release_date,
+        profile_path
     } = data;
 
     const premierYear =
@@ -25,7 +27,9 @@ function Generic(props) {
         <div className="media">
             <img
                 className="media-poster"
-                src={`${base_url}/original${poster_path || backdrop_path}`}
+                src={`${base_url}/original${poster_path ||
+                    backdrop_path ||
+                    profile_path}`}
                 alt={name || title}
             />
             <div className="media-summary">

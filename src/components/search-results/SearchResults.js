@@ -1,7 +1,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import './SearchResults.css';
 
-import Tv from './media-types/tv';
-import Generic from './media-types/Generic';
+import Tv from '../media-types/tv';
+import Generic from '../media-types/generic';
+
+import Pager from '../pager';
 
 function SearchResults(props) {
     const { query, configuration } = props;
@@ -55,11 +58,16 @@ function SearchResults(props) {
     return (
         <div className="search-results">
             <div className="search-results-header">
-                <span>
-                    <b>Page: </b>
-                    {page}
-                </span>
-                {data && <span>{data.total_results} results</span>}
+                {query && (
+                    <h1 className="search-results-query">
+                        Results for '{query}'
+                    </h1>
+                )}
+                <Pager
+                    current={page}
+                    total={data.total_pages}
+                    onChange={page => setPage(page)}
+                />
             </div>
             <div className="search-results-body">{cards}</div>
         </div>

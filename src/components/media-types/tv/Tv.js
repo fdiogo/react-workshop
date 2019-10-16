@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import Rating from '../../Rating';
 
-import TvDetails from './TvDetails';
+import TvDetails from './components/tv-details/TvDetails';
 
 function Generic(props) {
     const { data, configuration } = props;
@@ -22,7 +22,9 @@ function Generic(props) {
     const [details, setDetails] = useState();
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleClick = () => setIsOpen(true);
+    const handleClick = () => {
+        setIsOpen(true);
+    };
 
     useEffect(() => {
         let canceled = false;
@@ -40,35 +42,38 @@ function Generic(props) {
         first_air_date && new Date(first_air_date).getFullYear();
 
     return (
-        <div className="media tv" onClick={handleClick}>
-            <div className="media-poster">
-                <img
-                    className="media-poster-image"
-                    src={`${base_url}/w500${poster_path}`}
-                    alt={name}
-                />
-            </div>
-            <div className="media-summary">
-                <span className="media-votes">
-                    <span className="media-votes-average">
-                        <Rating value={vote_average} />
+        <Fragment>
+            <div className="media tv" onClick={handleClick}>
+                <div className="media-poster">
+                    <img
+                        className="media-poster-image"
+                        src={`${base_url}/w500${poster_path}`}
+                        alt={name}
+                    />
+                </div>
+                <div className="media-summary">
+                    <span className="media-votes">
+                        <span className="media-votes-average">
+                            <Rating value={vote_average} />
+                        </span>
                     </span>
-                </span>
-                <span className="media-title">
-                    {name}
-                    {premierYear && (
-                        <span className="media-year">{`(${premierYear})`}</span>
-                    )}
-                </span>
+                    <span className="media-title">
+                        {name}
+                        {premierYear && (
+                            <span className="media-year">{`(${premierYear})`}</span>
+                        )}
+                    </span>
+                </div>
             </div>
             {isOpen && (
                 <TvDetails
                     partialData={data}
                     data={details}
                     configuration={configuration}
+                    onClose={() => setIsOpen(false)}
                 />
             )}
-        </div>
+        </Fragment>
     );
 }
 

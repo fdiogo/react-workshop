@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Search from './components/icons/Search';
 import Popcorn from './components/icons/Popcorn';
 
-import SearchResults from './components/SearchResults';
+import SearchResults from './components/search-results';
 
 function App() {
     const [configuration, setConfiguration] = useState(null);
@@ -38,8 +38,6 @@ function App() {
                 </form>
             </header>
             <main>
-                {query && <h1>Results for '{query}'</h1>}
-
                 <SearchResults query={query} configuration={configuration} />
             </main>
         </div>

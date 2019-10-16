@@ -1,0 +1,78 @@
+.tv-details {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	padding: 20px;
+	max-width: 800px;
+	background-color: #ffffff;
+}
+  
+.tv-details-name {
+	margin-bottom: 5px;
+}
+  
+.tv-details-year {
+	font-size: 16px;
+	margin-left: 5px;
+	margin-bottom: 6px;
+	color: grey;
+}
+
+.tv-details-poster {
+	max-width: 300px;
+	margin-right: 20px;
+}
+
+.tv-details-summary {
+	width: 440px;
+}
+
+.tv-details-overview {
+	margin-top: 0;
+}
+
+.tv-details-votes {
+	position: relative;
+	display: inline-flex;
+	color: black;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.tv-details-status {
+	display: flex;
+	min-height: 18px;
+}
+
+.tv-details-creators {
+	display: flex;
+}
+
+.tv-details-creator {
+	display: flex;
+	flex-direction: column;
+	margin-right: 30px;
+	font-size: 14px;
+}
+
+.tv-details-seasons {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.tv-details-season {
+	background-color: #734aa0;
+	cursor: pointer;
+	height: 24px;
+	padding: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-size: smaller;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+	border-radius: 0;
+	color: white;
+}

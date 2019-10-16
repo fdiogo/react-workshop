@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import './TvDetails.css';
 
-import Star from '../../icons/Star';
-
-import Modal from '../../Modal';
-
-import Season from './Season';
+import Modal from '../../../../modal';
+import Rating from '../../../../Rating';
+import Season from '../season/Season';
 
 function TvDetails(props) {
-    const { partialData, data = {}, configuration } = props;
-
+    const { partialData, data = {}, configuration, onClose } = props;
     const { name, vote_average, overview, poster_path } = partialData;
     const { first_air_date, status, seasons = [], created_by = [] } = data;
     const {
@@ -23,7 +21,7 @@ function TvDetails(props) {
         first_air_date && new Date(first_air_date).getFullYear();
 
     return (
-        <Modal>
+        <Modal onClose={onClose}>
             <div className="tv-details">
                 <img
                     className="tv-details-poster"
@@ -37,12 +35,12 @@ function TvDetails(props) {
                             <span className="tv-details-year">{`(${premierYear})`}</span>
                         )}
                     </h1>
-                    <span className="tv-details-votes">
-                        <Star />
-                        <span className="tv-details-votes-average">
-                            {vote_average}
+                    <div>
+                        <span className="tv-details-votes">
+                            <Rating value={vote_average} />
                         </span>
-                    </span>
+                    </div>
+
                     {/* <h2 className="tv-details-status">{status}</h2> */}
                     <h2>Overview</h2>
                     <p className="tv-details-overview">{overview}</p>
@@ -90,7 +88,8 @@ TvDetails.propTypes = {
     status: PropTypes.string,
     createdBy: PropTypes.arrayOf(PropTypes.string),
     seasons: PropTypes.arrayOf(PropTypes.object),
-    votes: PropTypes.number
+    votes: PropTypes.number,
+    onClose: PropTypes.func.isRequired
 };
 
 export default TvDetails;
