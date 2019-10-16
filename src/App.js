@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+
+import Search from './components/icons/Search';
+import Popcorn from './components/icons/Popcorn';
+
 import SearchResults from './components/SearchResults';
 
 function App() {
@@ -19,17 +23,25 @@ function App() {
 
     return (
         <div className="app">
-            <form onSubmit={handleFormSubmit}>
-                <input
-                    value={inputValue}
-                    placeholder="please input something"
-                    onChange={event => setInputValue(event.target.value)}
-                ></input>
-                <button type="submit">Search</button>
-            </form>
-            {query && <h1>Results for '{query}'</h1>}
+            <header>
+                <Popcorn className="header-logo" />
+                <button className="header-link">Favorites</button>
+                <button className="header-link">Watchlist</button>
+                <form className="header-search" onSubmit={handleFormSubmit}>
+                    <Search className="header-search-icon" />
+                    <input
+                        className="header-search-input"
+                        value={inputValue}
+                        placeholder="Search"
+                        onChange={event => setInputValue(event.target.value)}
+                    ></input>
+                </form>
+            </header>
+            <main>
+                {query && <h1>Results for '{query}'</h1>}
 
-            <SearchResults query={query} configuration={configuration} />
+                <SearchResults query={query} configuration={configuration} />
+            </main>
         </div>
     );
 }

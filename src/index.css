@@ -1,8 +1,9 @@
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -11,7 +12,9 @@ body {
   --primary-color: #398278;
   --secondary-color: #fff;
   --tertiary-color: #dedede;
-  --accent-color: #734aa0;
+  --accent-color: #8b5aa6;
+
+  --font-color: #3c3f40;
 }
 
 * {
@@ -27,13 +30,27 @@ html, body, #root, .app {
 }
 
 body {
-  background: linear-gradient(to right, #536976, #292e49);
-  padding: 50px 20px 40px;
-  color: var(--secondary-color);
+  background-color: white;
+  color: #2c3e50;
 }
 
-#root {
-  max-width: 1024px;
+header {
+  background: #2c3e50;
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 25px;
+  width: 100%;
+  padding: 0;
+  min-height: 60px;
+}
+
+main {
+  padding: 50px 40px 40px;
+  max-width: 1920px;
+  width: 100%;
 }
 
 input {
@@ -60,13 +77,11 @@ input[type="radio"] {
 
 button {
   border: 0;
-  height: 30px;
-  background: black;
-  border-radius: 50px;
-  padding: 0px 20px;
-  background: var(--primary-color);
+  padding: 0;
+  background: 0;
   cursor: pointer;
   color: var(--secondary-color);
+  font-family: 'Roboto', sans-serif;
 }
 
 ul, ol {
@@ -88,6 +103,54 @@ h2 {
   margin: 10px 0;
 }
 
+.header-logo {
+  font-size: 47px;
+  margin-right: 20px;
+  margin-left: 33px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  flex-shrink: 0;
+}
+
+.header-link {
+  font-size: 16px;
+  height: 100%;
+  padding: 20px;
+  font-weight: bold;
+}
+
+.header-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #34495e;
+  background-color: #34495e;
+  height: 100%;
+  color: white;
+  width: 100%;
+}
+
+.header-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  transform: translate(-50%, -50%);
+}
+
+.header-search-input {
+  background: transparent;
+  color: white;
+  height: 100%;
+  width: 100%;
+  padding: 20px 10px 20px 55px;
+  margin: 0;
+  margin-right: 1px;
+}
+
+.header-search-input::placeholder {
+  color: lightgrey;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -104,7 +167,6 @@ h2 {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid var(--secondary-color);
   padding-bottom: 10px;
   margin-bottom: 30px;
 }
@@ -113,38 +175,47 @@ h2 {
   width: 100%;
   display: grid;
   grid-auto-flow: row;
-  justify-content: space-around;
-  grid-auto-rows: 380px;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 210px));
+  justify-content: space-between;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 20px;
 }
 
 .media {
+  max-height: calc(100vh - 217px);
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: var(--primary-color);
-  padding: 10px 10px 36px;
-  color: var(--secondary-color);
+  align-items: flex-start;
+  background-color: white;
+  padding: 0;
   cursor: pointer;
-  box-shadow: 2px 2px 3px rgb(66, 66, 66)
-}
-
-.media-title {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
 .media-poster {
   position: relative;
   width: 100%;
-  margin-bottom: 10px;
   background-color: white;
-  flex-shrink: 0;
+  overflow: hidden;
   object-fit: cover;
   object-position: center center;
+}
+
+.media-poster-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  object-fit: cover;
+}
+
+.media-poster::before {
+  content: '';
+  padding-bottom: calc(100% * 1.5);
+  display: block;
 }
 
 .media-poster::after {
@@ -157,40 +228,52 @@ h2 {
   background-color: inherit;
 }
 
-.media-type {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+.media-summary {
+  display: flex;
   width: 100%;
-  font-size: 16px;
-  padding: 5px;
-  background-color: var(--accent-color);
-  color: var(--secondary-color);
-  margin-top: auto;
-  text-align: center;
+  height: 60px;
+  align-content: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
 }
 
 .media-votes {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  color: var(--tertiary-color);
-  z-index: 1;
-  stroke: #3f4e4c;
+  display: flex;
+  position: relative;
+  color: var(--accent-color);
+  stroke-width: 0;
+  align-items: center;
+  padding: 0 15px;
 }
 
 .media-votes-average {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   color: black;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.media-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100%;
+  text-align: left;
+  padding: 5px 10px;
+  color: black;
+}
+
+.media-year {
   font-size: 14px;
+  color: grey;
+  margin-left: 5px;
 }
 
 .tv .media-type {
-  background-color: #ffec00;
-  color: #444444;
+  background-color: #d45a51;
+  color: white;
 }
 
 .tv-details {
@@ -201,6 +284,17 @@ h2 {
   max-width: 800px;
 }
 
+.tv-details-name {
+  margin-bottom: 5px;
+}
+
+.tv-details-year {
+  font-size: 16px;
+  color: #ffffff50;
+  margin-left: 5px;
+  margin-bottom: 6px;
+}
+
 .tv-details-poster {
   max-width: 300px;
   margin-right: 20px;
@@ -208,6 +302,26 @@ h2 {
 
 .tv-details-summary {
   width: 440px;
+}
+
+.tv-details-overview {
+  margin-top: 0;
+}
+
+.tv-details-votes {
+  position: relative;
+  display: inline-flex;
+  color: var(--accent-color);
+}
+
+.tv-details-votes-average {
+  position: absolute;
+  top: 53%;
+  left: 51%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .tv-details-status {
@@ -243,6 +357,38 @@ h2 {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  border-radius: 0;
+}
+
+.season {
+  display: flex;
+  margin-top: 15px;
+  height: 235px;
+  overflow: hidden;
+}
+
+.season-name {
+  margin-top: 0;
+  font-size: 24px;
+  margin-bottom: 0;
+}
+
+.season-shorthand-details {
+  font-size: 14px;
+}
+
+.season-overview {
+  height: 173px;
+  overflow-y: auto;
+  margin-bottom: 0;
+}
+
+.season-poster {
+  flex-shrink: 0;
+  width: 150px;
+  height: 235px;
+  margin-right: 20px;
 }
 
 .modal {
@@ -268,5 +414,6 @@ h2 {
 }
 
 .modal-content {
-  background-color: #3f5855;
+  color: #505050;
+  background-color: #ffffff;
 }

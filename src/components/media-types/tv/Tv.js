@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import Star from '../../icons/Star';
+import Rating from '../../Rating';
 
 import TvDetails from './TvDetails';
 
@@ -9,7 +9,15 @@ function Generic(props) {
     const {
         images: { base_url }
     } = configuration;
-    const { id, name, poster_path, vote_average, media_type, overview } = data;
+    const {
+        id,
+        name,
+        poster_path,
+        vote_average,
+        first_air_date,
+        media_type,
+        overview
+    } = data;
 
     const [details, setDetails] = useState();
     const [isOpen, setIsOpen] = useState(false);
@@ -17,42 +25,47 @@ function Generic(props) {
     const handleClick = () => setIsOpen(true);
 
     useEffect(() => {
+        let canceled = false;
+
         if (isOpen && !details) {
             fetch(`https://reactworkshop-api.herokuapp.com/3/tv/${id}`)
                 .then(response => response.json())
-                .then(details => setDetails(details));
+                .then(details => !canceled && setDetails(details));
         }
+
+        return () => (canceled = true);
     }, [details, isOpen, id]);
 
-    console.log(details);
-
     const premierYear =
-        details && new Date(details.first_air_date).getFullYear();
+        first_air_date && new Date(first_air_date).getFullYear();
 
     return (
         <div className="media tv" onClick={handleClick}>
-            <span className="media-votes">
-                <Star />
-                <span className="media-votes-average">{vote_average}</span>
-            </span>
-            <img
-                className="media-poster"
-                src={`${base_url}/original${poster_path}`}
-                alt={name}
-            />
-            <span className="media-title">{name}</span>
-            <span className="media-type">{media_type}</span>
+            <div className="media-poster">
+                <img
+                    className="media-poster-image"
+                    src={`${base_url}/w500${poster_path}`}
+                    alt={name}
+                />
+            </div>
+            <div className="media-summary">
+                <span className="media-votes">
+                    <span className="media-votes-average">
+                        <Rating value={vote_average} />
+                    </span>
+                </span>
+                <span className="media-title">
+                    {name}
+                    {premierYear && (
+                        <span className="media-year">{`(${premierYear})`}</span>
+                    )}
+                </span>
+            </div>
             {isOpen && (
                 <TvDetails
-                    name={details ? `${name} (${premierYear})` : name}
-                    overview={overview}
-                    image={`${base_url}/original${poster_path}`}
-                    status={details && details.status}
-                    seasons={details && details.seasons}
-                    createdBy={
-                        details &&
-                        details.created_by.map(creator => creator.name)
-                    }
+                    partialData={data}
+                    data={details}
+                    configuration={configuration}
                 />
             )}
         </div>

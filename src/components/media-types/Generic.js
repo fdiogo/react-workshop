@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Star from '../icons/Star';
+import Rating from '../Rating';
 
 function Generic(props) {
     const { data, configuration } = props;
@@ -13,21 +13,34 @@ function Generic(props) {
         poster_path,
         backdrop_path,
         vote_average,
-        media_type
+        first_air_date,
+        release_date
     } = data;
+
+    const premierYear =
+        (first_air_date || release_date) &&
+        new Date(first_air_date || release_date).getFullYear();
+
     return (
         <div className="media">
-            <span className="media-votes">
-                <Star />
-                <span className="media-votes-average">{vote_average}</span>
-            </span>
             <img
                 className="media-poster"
                 src={`${base_url}/original${poster_path || backdrop_path}`}
                 alt={name || title}
             />
-            <span className="media-title">{name || title}</span>
-            <span className="media-type">{media_type}</span>
+            <div className="media-summary">
+                <span className="media-votes">
+                    <span className="media-votes-average">
+                        <Rating value={vote_average} />
+                    </span>
+                </span>
+                <span className="media-title">
+                    {name || title}
+                    {premierYear && (
+                        <span className="media-year">{`(${premierYear})`}</span>
+                    )}
+                </span>
+            </div>
         </div>
     );
 }
