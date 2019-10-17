@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useReducer, useMemo, useEffect } from 'react';
 import './SearchResults.css';
 
 import Tv from '../media-types/tv';
@@ -7,14 +7,42 @@ import Loader from '../loader';
 
 import Pager from '../pager';
 
+function searchReducer(state, action) {
+    switch (action.type) {
+        case 'FETCH_START':
+            return {
+                isLoading: true,
+                error: null,
+                data: null
+            };
+        case 'FETCH_SUCCESS':
+            return {
+                isLoading: false,
+                error: null,
+                data: action.data
+            };
+        case 'FETCH_ERROR':
+            return {
+                isLoading: false,
+                error: action.error,
+                data: null
+            };
+        default:
+            return state;
+    }
+}
+
 function SearchResults(props) {
     const { query } = props;
 
-    const [error, setError] = useState();
-    const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState(null);
-
     const [page, setPage] = useState(1);
+
+    const [state, dispatch] = useReducer(searchReducer, {
+        isLoading: false,
+        error: null,
+        data: null
+    });
+    const { isLoading, data, error } = state;
 
     useEffect(() => {
         setPage(1);
@@ -27,23 +55,27 @@ function SearchResults(props) {
 
         let canceled = false;
 
-        setError(null);
-        setIsLoading(true);
+        dispatch({ type: 'FETCH_START' });
 
         const handleResolve = data => {
-            !canceled && setData(data);
-            setIsLoading(false);
+            if (canceled) return;
+
+            dispatch({ type: 'FETCH_SUCCESS', data });
         };
 
         const handleReject = () => {
-            setData(null);
-            setError('Could not obtain the data');
-            setIsLoading(false);
+            if (canceled) return;
+
+            dispatch({
+                type: 'FETCH_FAILURE',
+                error: 'Could not obtain the data'
+            });
         };
 
         const handleError = error => {
-            setError(error);
-            setIsLoading(false);
+            if (canceled) return;
+
+            dispatch({ type: 'FETCH_FAILURE', error });
         };
 
         fetch(
