@@ -7,7 +7,7 @@ import Generic from '../media-types/generic';
 import Pager from '../pager';
 
 function SearchResults(props) {
-    const { query, configuration } = props;
+    const { query } = props;
 
     const [page, setPage] = useState(1);
     const [data, setData] = useState(null);
@@ -32,24 +32,12 @@ function SearchResults(props) {
         return data.results.map(media => {
             switch (media.media_type) {
                 case 'tv':
-                    return (
-                        <Tv
-                            key={media.id}
-                            data={media}
-                            configuration={configuration}
-                        />
-                    );
+                    return <Tv key={media.id} data={media} />;
                 default:
-                    return (
-                        <Generic
-                            key={media.id}
-                            data={media}
-                            configuration={configuration}
-                        />
-                    );
+                    return <Generic key={media.id} data={media} />;
             }
         });
-    }, [configuration, data]);
+    }, [data]);
 
     if (!query || !data) {
         return null;

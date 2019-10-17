@@ -3,12 +3,14 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Rating from '../../Rating';
 
 import TvDetails from './components/tv-details/TvDetails';
+import useConfiguration from '../../../hooks/useConfiguration';
 
 function Generic(props) {
-    const { data, configuration } = props;
+    const { data } = props;
     const {
         images: { base_url }
-    } = configuration;
+    } = useConfiguration();
+
     const {
         id,
         name,
@@ -69,7 +71,6 @@ function Generic(props) {
                 <TvDetails
                     partialData={data}
                     data={details}
-                    configuration={configuration}
                     onClose={() => setIsOpen(false)}
                 />
             )}

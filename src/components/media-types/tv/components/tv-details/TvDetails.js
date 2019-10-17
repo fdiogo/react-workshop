@@ -5,14 +5,16 @@ import './TvDetails.css';
 import Modal from '../../../../modal';
 import Rating from '../../../../Rating';
 import Season from '../season/Season';
+import useConfiguration from '../../../../../hooks/useConfiguration';
 
 function TvDetails(props) {
     const { partialData, data = {}, configuration, onClose } = props;
     const { name, vote_average, overview, poster_path } = partialData;
     const { first_air_date, status, seasons = [], created_by = [] } = data;
+
     const {
         images: { base_url }
-    } = configuration;
+    } = useConfiguration();
 
     const [seasonId, setSeasonId] = useState();
     const selectedSeason = seasons.find(season => season.id == seasonId);

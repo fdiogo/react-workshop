@@ -2,12 +2,14 @@ import React from 'react';
 import './Generic.css';
 
 import Rating from '../../Rating';
+import useConfiguration from '../../../hooks/useConfiguration';
 
 function Generic(props) {
-    const { data, configuration } = props;
+    const { data } = props;
     const {
         images: { base_url }
-    } = configuration;
+    } = useConfiguration();
+
     const {
         name,
         title,
