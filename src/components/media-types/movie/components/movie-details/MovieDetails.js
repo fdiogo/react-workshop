@@ -7,7 +7,7 @@ import Modal from '../../../../modal';
 import Rating from '../../../../Rating';
 
 function MovieDetails(props) {
-    const { partialData, data = {}, onClose } = props;
+    const { partialData, onClose } = props;
     const {
         title,
         vote_average,
@@ -17,16 +17,24 @@ function MovieDetails(props) {
     } = partialData;
 
     const {
-        images: { base_url }
+        images: { base_url, poster_sizes }
     } = useConfiguration();
 
     const premierYear = release_date && new Date(release_date).getFullYear();
+
+    const srcset = poster_sizes
+        .filter(size => size !== 'original')
+        .map(
+            size => `${base_url}${size}${poster_path} ${size.replace('w', '')}w`
+        )
+        .join(',');
 
     return (
         <Modal onClose={onClose}>
             <div className="movie-details">
                 <img
                     className="movie-details-poster"
+                    srcSet={srcset}
                     src={`${base_url}/original${poster_path}`}
                     alt={title}
                 />

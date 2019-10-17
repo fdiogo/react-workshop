@@ -19,7 +19,7 @@ function TvDetails(props) {
     const { seasons = [], created_by = [] } = data;
 
     const {
-        images: { base_url }
+        images: { base_url, poster_sizes }
     } = useConfiguration();
 
     const [seasonId, setSeasonId] = useState();
@@ -28,12 +28,20 @@ function TvDetails(props) {
     const premierYear =
         first_air_date && new Date(first_air_date).getFullYear();
 
+    const srcset = poster_sizes
+        .filter(size => size !== 'original')
+        .map(
+            size => `${base_url}${size}${poster_path} ${size.replace('w', '')}w`
+        )
+        .join(',');
+
     return (
         <Modal onClose={onClose}>
             <div className="tv-details">
                 <img
                     className="tv-details-poster"
-                    src={`${base_url}/original${poster_path}`}
+                    srcSet={srcset}
+                    src={`${base_url}original${poster_path}`}
                     alt={name}
                 />
                 <div className="tv-details-summary">

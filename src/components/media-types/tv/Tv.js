@@ -8,7 +8,7 @@ import useConfiguration from '../../../hooks/useConfiguration';
 function Tv(props) {
     const { data } = props;
     const {
-        images: { base_url }
+        images: { base_url, poster_sizes }
     } = useConfiguration();
 
     const { id, name, poster_path, vote_average, first_air_date } = data;
@@ -35,13 +35,21 @@ function Tv(props) {
     const premierYear =
         first_air_date && new Date(first_air_date).getFullYear();
 
+    const srcset = poster_sizes
+        .filter(size => size !== 'original')
+        .map(
+            size => `${base_url}${size}${poster_path} ${size.replace('w', '')}w`
+        )
+        .join(',');
+
     return (
         <Fragment>
             <div className="media tv" onClick={handleClick}>
                 <div className="media-poster">
                     <img
                         className="media-poster-image"
-                        src={`${base_url}/w500${poster_path}`}
+                        srcSet={srcset}
+                        src={`${base_url}original${poster_path}`}
                         alt={name}
                     />
                 </div>

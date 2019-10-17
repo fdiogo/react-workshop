@@ -9,12 +9,10 @@ function Movie(props) {
     const { data } = props;
 
     const {
-        images: { base_url }
+        images: { base_url, poster_sizes }
     } = useConfiguration();
 
     const { id, title, poster_path, vote_average, release_date } = data;
-
-    console.log(release_date);
 
     const [details, setDetails] = useState();
     const [isOpen, setIsOpen] = useState(false);
@@ -37,13 +35,21 @@ function Movie(props) {
 
     const premierYear = release_date && new Date(release_date).getFullYear();
 
+    const srcset = poster_sizes
+        .filter(size => size !== 'original')
+        .map(
+            size => `${base_url}${size}${poster_path} ${size.replace('w', '')}w`
+        )
+        .join(',');
+
     return (
         <Fragment>
             <div className="media movie" onClick={handleClick}>
                 <div className="media-poster">
                     <img
                         className="media-poster-image"
-                        src={`${base_url}/w500${poster_path}`}
+                        srcSet={srcset}
+                        src={`${base_url}original${poster_path}`}
                         alt={title}
                     />
                 </div>
