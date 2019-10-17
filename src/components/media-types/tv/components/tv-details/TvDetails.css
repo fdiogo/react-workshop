@@ -39,11 +39,6 @@
 	font-size: 24px;
 }
 
-.tv-details-status {
-	display: flex;
-	min-height: 18px;
-}
-
 .tv-details-creators {
 	display: flex;
 }

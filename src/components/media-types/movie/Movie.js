@@ -1,17 +1,20 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import './Movie.css';
 
-import Rating from '../../Rating';
-
-import TvDetails from './components/tv-details/TvDetails';
 import useConfiguration from '../../../hooks/useConfiguration';
+import Rating from '../../Rating';
+import MovieDetails from './components/movie-details/MovieDetails';
 
-function Tv(props) {
+function Movie(props) {
     const { data } = props;
+
     const {
         images: { base_url }
     } = useConfiguration();
 
-    const { id, name, poster_path, vote_average, first_air_date } = data;
+    const { id, title, poster_path, vote_average, release_date } = data;
+
+    console.log(release_date);
 
     const [details, setDetails] = useState();
     const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +27,7 @@ function Tv(props) {
         let canceled = false;
 
         if (isOpen && !details) {
-            fetch(`https://reactworkshop-api.herokuapp.com/3/tv/${id}`)
+            fetch(`https://reactworkshop-api.herokuapp.com/3/movie/${id}`)
                 .then(response => response.json())
                 .then(details => !canceled && setDetails(details));
         }
@@ -32,17 +35,16 @@ function Tv(props) {
         return () => (canceled = true);
     }, [details, isOpen, id]);
 
-    const premierYear =
-        first_air_date && new Date(first_air_date).getFullYear();
+    const premierYear = release_date && new Date(release_date).getFullYear();
 
     return (
         <Fragment>
-            <div className="media tv" onClick={handleClick}>
+            <div className="media movie" onClick={handleClick}>
                 <div className="media-poster">
                     <img
                         className="media-poster-image"
                         src={`${base_url}/w500${poster_path}`}
-                        alt={name}
+                        alt={title}
                     />
                 </div>
                 <div className="media-summary">
@@ -52,7 +54,7 @@ function Tv(props) {
                         </span>
                     </span>
                     <span className="media-title">
-                        {name}
+                        {title}
                         {premierYear && (
                             <span className="media-year">{`(${premierYear})`}</span>
                         )}
@@ -60,7 +62,7 @@ function Tv(props) {
                 </div>
             </div>
             {isOpen && (
-                <TvDetails
+                <MovieDetails
                     partialData={data}
                     data={details}
                     onClose={() => setIsOpen(false)}
@@ -70,4 +72,4 @@ function Tv(props) {
     );
 }
 
-export default Tv;
+export default Movie;

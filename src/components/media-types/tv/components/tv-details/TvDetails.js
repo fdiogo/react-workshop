@@ -9,8 +9,14 @@ import useConfiguration from '../../../../../hooks/useConfiguration';
 
 function TvDetails(props) {
     const { partialData, data = {}, onClose } = props;
-    const { name, vote_average, overview, poster_path } = partialData;
-    const { first_air_date, seasons = [], created_by = [] } = data;
+    const {
+        name,
+        vote_average,
+        overview,
+        poster_path,
+        first_air_date
+    } = partialData;
+    const { seasons = [], created_by = [] } = data;
 
     const {
         images: { base_url }
@@ -42,8 +48,6 @@ function TvDetails(props) {
                             <Rating value={vote_average} />
                         </span>
                     </div>
-
-                    {/* <h2 className="tv-details-status">{status}</h2> */}
                     <h2>Overview</h2>
                     <p className="tv-details-overview">{overview}</p>
                     <ul className="tv-details-creators">

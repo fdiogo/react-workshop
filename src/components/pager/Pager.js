@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './Pager.css';
 
 function Pager(props) {
-    const { current, total, onChange } = props;
+    const { current, total, onChange, disabled } = props;
 
     const indicators = Array.from({ length: total }, (_, index) => {
         const page = index + 1;
@@ -20,6 +20,7 @@ function Pager(props) {
         <div className="pager" onChange={event => onChange(event.target.value)}>
             {current > 1 && (
                 <button
+                    disabled={disabled}
                     className="pager-previous"
                     onClick={() =>
                         onChange && onChange(Math.max(current - 1, 1))
@@ -30,6 +31,7 @@ function Pager(props) {
             )}
             {current < indicators.length && (
                 <button
+                    disabled={disabled}
                     className="pager-next"
                     onClick={() =>
                         onChange &&
@@ -46,7 +48,8 @@ function Pager(props) {
 Pager.propTypes = {
     current: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     total: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    disabled: PropTypes.bool
 };
 
 export default Pager;

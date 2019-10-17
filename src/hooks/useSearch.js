@@ -6,9 +6,9 @@ function searchReducer(state, action) {
     switch (action.type) {
         case 'FETCH_START':
             return {
+                ...state,
                 isLoading: true,
-                error: null,
-                data: null
+                error: null
             };
         case 'FETCH_SUCCESS':
             return {
@@ -18,9 +18,9 @@ function searchReducer(state, action) {
             };
         case 'FETCH_ERROR':
             return {
+                ...state,
                 isLoading: false,
-                error: action.error,
-                data: null
+                error: action.error
             };
         default:
             return state;

@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import './SearchResults.css';
 
 import Tv from '../media-types/tv';
+import Movie from '../media-types/movie';
 import Generic from '../media-types/generic';
 import Loader from '../loader';
 
@@ -41,6 +42,8 @@ function SearchResults(props) {
             switch (media.media_type) {
                 case 'tv':
                     return <Tv key={media.id} data={media} />;
+                case 'movie':
+                    return <Movie key={media.id} data={media} />;
                 default:
                     return <Generic key={media.id} data={media} />;
             }
@@ -61,8 +64,9 @@ function SearchResults(props) {
                         Results for '{query}'
                     </h1>
                 )}
-                {isLoaded && (
+                {data && (
                     <Pager
+                        disabled={isLoading}
                         current={searchOptions.page}
                         total={data.total_pages}
                         onChange={page =>
