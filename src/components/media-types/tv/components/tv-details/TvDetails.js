@@ -8,16 +8,16 @@ import Season from '../season/Season';
 import useConfiguration from '../../../../../hooks/useConfiguration';
 
 function TvDetails(props) {
-    const { partialData, data = {}, configuration, onClose } = props;
+    const { partialData, data = {}, onClose } = props;
     const { name, vote_average, overview, poster_path } = partialData;
-    const { first_air_date, status, seasons = [], created_by = [] } = data;
+    const { first_air_date, seasons = [], created_by = [] } = data;
 
     const {
         images: { base_url }
     } = useConfiguration();
 
     const [seasonId, setSeasonId] = useState();
-    const selectedSeason = seasons.find(season => season.id == seasonId);
+    const selectedSeason = seasons.find(season => season.id === seasonId);
 
     const premierYear =
         first_air_date && new Date(first_air_date).getFullYear();

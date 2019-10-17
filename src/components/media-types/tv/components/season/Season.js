@@ -6,15 +6,7 @@ import useConfiguration from '../../../../../hooks/useConfiguration';
 function Season(props) {
     const { season } = props;
 
-    const {
-        air_date,
-        episode_count,
-        id,
-        name,
-        overview,
-        poster_path,
-        season_number
-    } = season;
+    const { air_date, episode_count, name, overview, poster_path } = season;
 
     const {
         images: { base_url }

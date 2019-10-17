@@ -11,54 +11,26 @@ import useSearch from '../../hooks/useSearch';
 function SearchResults(props) {
     const { query } = props;
 
-    const [page, setPage] = useState(1);
+    const [searchOptions, setSearchOptions] = useState({ query, page: 1 });
 
-    const [state, dispatch] = useSearch();
-    const { isLoading, data, error } = state;
+    const {
+        isLoading,
+        error,
+        data,
+        actions: { search }
+    } = useSearch();
 
     useEffect(() => {
-        setPage(1);
+        setSearchOptions({ query, page: 1 });
     }, [query]);
 
     useEffect(() => {
-        if (!query) {
+        if (!searchOptions.query) {
             return;
         }
 
-        let canceled = false;
-
-        dispatch({ type: 'FETCH_START' });
-
-        const handleResolve = data => {
-            if (canceled) return;
-
-            dispatch({ type: 'FETCH_SUCCESS', data });
-        };
-
-        const handleReject = () => {
-            if (canceled) return;
-
-            dispatch({
-                type: 'FETCH_FAILURE',
-                error: 'Could not obtain the data'
-            });
-        };
-
-        const handleError = error => {
-            if (canceled) return;
-
-            dispatch({ type: 'FETCH_FAILURE', error });
-        };
-
-        fetch(
-            `https://reactworkshop-api.herokuapp.com/3/search/multi?query=${query}&page=${page}`
-        )
-            .then(response => response.json())
-            .then(handleResolve, handleReject)
-            .catch(handleError);
-
-        return () => (canceled = true);
-    }, [query, page, dispatch]);
+        search(searchOptions.query, searchOptions.page);
+    }, [search, searchOptions]);
 
     const cards = useMemo(() => {
         if (!data) {
@@ -91,9 +63,11 @@ function SearchResults(props) {
                 )}
                 {isLoaded && (
                     <Pager
-                        current={page}
+                        current={searchOptions.page}
                         total={data.total_pages}
-                        onChange={page => setPage(page)}
+                        onChange={page =>
+                            setSearchOptions(options => ({ ...options, page }))
+                        }
                     />
                 )}
             </div>

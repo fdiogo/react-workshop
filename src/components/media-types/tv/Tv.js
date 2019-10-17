@@ -11,15 +11,7 @@ function Generic(props) {
         images: { base_url }
     } = useConfiguration();
 
-    const {
-        id,
-        name,
-        poster_path,
-        vote_average,
-        first_air_date,
-        media_type,
-        overview
-    } = data;
+    const { id, name, poster_path, vote_average, first_air_date } = data;
 
     const [details, setDetails] = useState();
     const [isOpen, setIsOpen] = useState(false);
