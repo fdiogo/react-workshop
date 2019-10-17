@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import './SearchResults.css';
 
 import Tv from '../media-types/tv';
@@ -6,42 +6,14 @@ import Generic from '../media-types/generic';
 import Loader from '../loader';
 
 import Pager from '../pager';
-
-function searchReducer(state, action) {
-    switch (action.type) {
-        case 'FETCH_START':
-            return {
-                isLoading: true,
-                error: null,
-                data: null
-            };
-        case 'FETCH_SUCCESS':
-            return {
-                isLoading: false,
-                error: null,
-                data: action.data
-            };
-        case 'FETCH_ERROR':
-            return {
-                isLoading: false,
-                error: action.error,
-                data: null
-            };
-        default:
-            return state;
-    }
-}
+import useSearch from '../../hooks/useSearch';
 
 function SearchResults(props) {
     const { query } = props;
 
     const [page, setPage] = useState(1);
 
-    const [state, dispatch] = useReducer(searchReducer, {
-        isLoading: false,
-        error: null,
-        data: null
-    });
+    const [state, dispatch] = useSearch();
     const { isLoading, data, error } = state;
 
     useEffect(() => {
@@ -86,7 +58,7 @@ function SearchResults(props) {
             .catch(handleError);
 
         return () => (canceled = true);
-    }, [query, page]);
+    }, [query, page, dispatch]);
 
     const cards = useMemo(() => {
         if (!data) {
