@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Season.css';
+import useConfiguration from '../../../../../hooks/useConfiguration';
 
 function Season(props) {
-    const { season, configuration } = props;
+    const { season } = props;
 
     const {
         air_date,
@@ -14,9 +15,10 @@ function Season(props) {
         poster_path,
         season_number
     } = season;
+
     const {
         images: { base_url }
-    } = configuration;
+    } = useConfiguration();
 
     const premierYear = air_date && new Date(air_date).getFullYear();
 

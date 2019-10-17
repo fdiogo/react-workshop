@@ -71,12 +71,7 @@ function TvDetails(props) {
                             </button>
                         ))}
                     </div>
-                    {selectedSeason && (
-                        <Season
-                            season={selectedSeason}
-                            configuration={configuration}
-                        />
-                    )}
+                    {selectedSeason && <Season season={selectedSeason} />}
                 </div>
             </div>
         </Modal>
