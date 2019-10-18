@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Search from './components/icons/Search';
 import Popcorn from './components/icons/Popcorn';
+import SearchResults from './components/search-results/SearchResults';
 
 function App() {
+    const [inputValue, setInputValue] = useState('');
+    const [query, setQuery] = useState(null);
+
     const handleFormSubmit = event => {
         event.preventDefault();
-        // TODO: Handle the submission of the input
+        setQuery(inputValue);
     };
 
     return (
@@ -20,13 +24,12 @@ function App() {
                     <input
                         className="header-search-input"
                         placeholder="Search"
-                        // TODO: Provide a value and onChange to the input
+                        value={inputValue}
+                        onChange={event => setInputValue(event.target.value)}
                     ></input>
                 </form>
             </header>
-            <main>
-                <h1>{/* TODO: Render the query */}</h1>
-            </main>
+            <main>{query && <SearchResults query={query} />}</main>
         </div>
     );
 }
