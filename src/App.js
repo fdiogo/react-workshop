@@ -5,16 +5,16 @@ import Popcorn from './components/icons/Popcorn';
 import SearchResults from './components/search-results/SearchResults';
 
 function App() {
-    // TODO: Use this ref directly on the input
-    const inputValueRef = useRef('');
+    const inputRef = useRef();
     const [query, setQuery] = useState(null);
     const [configuration, setConfiguration] = useState(null);
 
     const handleFormSubmit = event => {
         event.preventDefault();
-        setQuery(inputValueRef.current);
+        setQuery(inputRef.current.value);
     };
 
+    // TODO: Move this effect into a custom context provider
     useEffect(() => {
         fetch(`https://reactworkshop-api.herokuapp.com/3/configuration`)
             .then(response => response.json())
@@ -22,6 +22,7 @@ function App() {
     }, []);
 
     return (
+        // TODO: Add the custom context provider here
         <div className="app">
             <header>
                 <Popcorn className="header-logo" />
@@ -32,9 +33,7 @@ function App() {
                     <input
                         className="header-search-input"
                         placeholder="Search"
-                        onChange={event =>
-                            (inputValueRef.current = event.target.value)
-                        }
+                        ref={inputRef}
                     ></input>
                 </form>
             </header>

@@ -1,21 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 
 import Close from '../icons/Close';
 
-function wasClickOutside(event) {
-    const modalContent = document.getElementById('modal-content');
-
-    return !modalContent.contains(event.target);
-}
-
 function Modal(props) {
     const { children, onClose } = props;
 
-    // TODO: Add a ref here to pass to the modal-content and delete `wasClickOutside`.
-    // Use the ref instead.
+    const modalContentRef = useRef();
 
     useEffect(() => {
         const handleKeyUp = event => {
@@ -25,7 +18,7 @@ function Modal(props) {
         };
 
         const handleMouseDown = event => {
-            if (wasClickOutside(event)) {
+            if (!modalContentRef.current.contains(event.target)) {
                 onClose();
             }
         };
@@ -42,7 +35,7 @@ function Modal(props) {
     return ReactDOM.createPortal(
         <div className="modal">
             <div className="modal-overlay" />
-            <div id="modal-content" className="modal-content">
+            <div className="modal-content" ref={modalContentRef}>
                 <button className="modal-close" onClick={onClose}>
                     <Close />
                 </button>
