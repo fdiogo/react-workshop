@@ -34,8 +34,45 @@ function SearchContextProvider(props) {
         data: null
     });
 
-    // TODO: Instead of dispatch return an object with your own custom actions
-    const context = useMemo(() => [state, dispatch], [state]);
+    const actions = useMemo(
+        () => ({
+            search: (query, page = 1) => {
+                dispatch({ type: 'FETCH_START' });
+
+                const handleResolve = data => {
+                    dispatch({ type: 'FETCH_SUCCESS', data });
+                };
+
+                const handleReject = () => {
+                    dispatch({
+                        type: 'FETCH_FAILURE',
+                        error: 'Could not obtain the data'
+                    });
+                };
+
+                const handleError = error => {
+                    dispatch({ type: 'FETCH_FAILURE', error });
+                };
+
+                fetch(
+                    `https://reactworkshop-api.herokuapp.com/3/search/multi?query=${query}&page=${page}`
+                )
+                    .then(response => response.json())
+                    .then(handleResolve, handleReject)
+                    .catch(handleError);
+            }
+        }),
+        []
+    );
+
+    const context = useMemo(
+        () => ({
+            ...state,
+            actions
+        }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [state]
+    );
 
     return <SearchContext.Provider value={context} {...props} />;
 }

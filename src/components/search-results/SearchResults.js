@@ -13,46 +13,26 @@ import useSearch from '../../hooks/useSearch';
 function SearchResults(props) {
     const { query } = props;
 
-    const [page, setPage] = useState(1);
+    const [searchOptions, setSearchOptions] = useState({ query, page: 1 });
 
-    const [state, dispatch] = useSearch();
-    const { error, isLoading, data } = state;
+    const {
+        isLoading,
+        error,
+        data,
+        actions: { search }
+    } = useSearch();
 
     useEffect(() => {
-        let canceled = false;
+        setSearchOptions({ query, page: 1 });
+    }, [query]);
 
-        // TODO: Move this code inside SearchContextProvider
-        dispatch({ type: 'FETCH_START' });
+    useEffect(() => {
+        if (!searchOptions.query) {
+            return;
+        }
 
-        const handleResolve = data => {
-            if (canceled) return;
-            dispatch({ type: 'FETCH_SUCCESS', data });
-        };
-
-        const handleReject = () => {
-            if (canceled) return;
-            dispatch({
-                type: 'FETCH_ERROR',
-                error: 'Could not fetch the results'
-            });
-        };
-
-        const handleError = error => {
-            if (canceled) return;
-            dispatch({ type: 'FETCH_ERROR', error });
-        };
-
-        fetch(
-            `https://reactworkshop-api.herokuapp.com/3/search/multi?query=${query}&page=${page}`
-        )
-            .then(response => response.json())
-            .then(handleResolve, handleReject)
-            .catch(handleError);
-
-        // TODO: Use the new function in SearchContextProvider here
-
-        return () => (canceled = true);
-    }, [query, page, dispatch]);
+        search(searchOptions.query, searchOptions.page);
+    }, [search, searchOptions]);
 
     const cards = useMemo(() => {
         if (!data) {
@@ -87,9 +67,12 @@ function SearchResults(props) {
                 )}
                 {data && (
                     <Pager
-                        current={page}
+                        disabled={isLoading}
+                        current={searchOptions.page}
                         total={data.total_pages}
-                        onChange={setPage}
+                        onChange={page =>
+                            setSearchOptions(options => ({ ...options, page }))
+                        }
                     />
                 )}
             </div>
