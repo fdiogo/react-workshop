@@ -5,6 +5,7 @@ import Popcorn from './components/icons/Popcorn';
 import SearchResults from './components/search-results/SearchResults';
 
 function App() {
+    // TODO: Change this into a useRef
     const [inputValue, setInputValue] = useState('');
     const [query, setQuery] = useState(null);
     const [configuration, setConfiguration] = useState(null);

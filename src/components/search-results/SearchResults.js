@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './SearchResults.css';
 
 import Tv from '../media-types/tv';
@@ -21,39 +21,44 @@ function SearchResults(props) {
             .then(setData);
     }, [query, page]);
 
+    const cards = useMemo(() => {
+        if (!data) {
+            return [];
+        }
+
+        return data.results.map(media => {
+            switch (media.media_type) {
+                case 'tv':
+                    return (
+                        <Tv
+                            key={media.id}
+                            data={media}
+                            configuration={configuration}
+                        />
+                    );
+                case 'movie':
+                    return (
+                        <Movie
+                            key={media.id}
+                            data={media}
+                            configuration={configuration}
+                        />
+                    );
+                default:
+                    return (
+                        <Generic
+                            key={media.id}
+                            data={media}
+                            configuration={configuration}
+                        />
+                    );
+            }
+        });
+    }, [configuration, data]);
+
     if (!query) {
         return null;
     }
-
-    // TODO: memoize this array
-    const cards = data.results.map(media => {
-        switch (media.media_type) {
-            case 'tv':
-                return (
-                    <Tv
-                        key={media.id}
-                        data={media}
-                        configuration={configuration}
-                    />
-                );
-            case 'movie':
-                return (
-                    <Movie
-                        key={media.id}
-                        data={media}
-                        configuration={configuration}
-                    />
-                );
-            default:
-                return (
-                    <Generic
-                        key={media.id}
-                        data={media}
-                        configuration={configuration}
-                    />
-                );
-        }
-    });
 
     return (
         <div className="search-results">
