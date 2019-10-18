@@ -17,6 +17,7 @@ function App() {
 
     return (
         <ConfigurationContextProvider>
+            {/* TODO: Add the custom context provider here */}
             <div className="app">
                 <header>
                     <Popcorn className="header-logo" />

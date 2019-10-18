@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useReducer, useMemo, useState } from 'react';
 import './SearchResults.css';
 
 import Tv from '../media-types/tv';
@@ -8,39 +8,67 @@ import Loader from '../loader';
 
 import Pager from '../pager';
 
+function searchReducer(state, action) {
+    switch (action.type) {
+        case 'FETCH_START':
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+        case 'FETCH_SUCCESS':
+            return {
+                isLoading: false,
+                error: null,
+                data: action.data
+            };
+        case 'FETCH_ERROR':
+            return {
+                ...state,
+                isLoading: false,
+                error: action.error
+            };
+        default:
+            return state;
+    }
+}
+
 function SearchResults(props) {
     const { query } = props;
 
     const [page, setPage] = useState(1);
 
-    // TODO: Change these 3 states into a single useReducer
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState({ results: [] });
+    // TODO: Move this into its own context provider
+    const [state, dispatch] = useReducer(searchReducer, {
+        error: null,
+        isLoading: false,
+        data: { results: [] }
+    });
+
+    // TODO: Consume the context provider here with your custom hook
+    const { error, isLoading, data } = state;
 
     useEffect(() => {
         let canceled = false;
 
-        setIsLoading(true);
-        setError(null);
+        dispatch({ type: 'FETCH_START' });
 
         const handleResolve = data => {
             if (canceled) return;
-            setData(data);
-            setError(null);
-            setIsLoading(false);
+            dispatch({ type: 'FETCH_SUCCESS', data });
         };
 
         const handleReject = () => {
             if (canceled) return;
-            setError('Could not fetch the results');
-            setIsLoading(false);
+            dispatch({
+                type: 'FETCH_ERROR',
+                error: 'Could not fetch the results'
+            });
         };
 
         const handleError = error => {
             if (canceled) return;
-            setError(error);
-            setIsLoading(false);
+            dispatch({ type: 'FETCH_ERROR', error });
         };
 
         fetch(
