@@ -25,6 +25,7 @@ function SearchResults(props) {
         return null;
     }
 
+    // TODO: memoize this array
     const cards = data.results.map(media => {
         switch (media.media_type) {
             case 'tv':

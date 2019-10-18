@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import './Modal.css';
@@ -14,7 +14,27 @@ function wasClickOutside(event) {
 function Modal(props) {
     const { children, onClose } = props;
 
-    // TODO: Add a useEffect here to register the event listeners on the window
+    useEffect(() => {
+        const handleKeyUp = event => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        const handleMouseDown = event => {
+            if (wasClickOutside(event)) {
+                onClose();
+            }
+        };
+
+        window.addEventListener('mousedown', handleMouseDown);
+        window.addEventListener('keyup', handleKeyUp);
+
+        return () => {
+            window.removeEventListener('mousedown', handleMouseDown);
+            window.removeEventListener('keyup', handleKeyUp);
+        };
+    }, [onClose]);
 
     return ReactDOM.createPortal(
         <div className="modal">
