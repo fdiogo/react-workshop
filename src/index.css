@@ -6,3 +6,157 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --primary-color: #398278;
+  --secondary-color: #fff;
+  --tertiary-color: #dedede;
+  --accent-color: #8b5aa6;
+
+  --font-color: #2c3e50;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root, .app {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  background-color: white;
+  color: var(--font-color);
+}
+
+header {
+  background: #2c3e50;
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 25px;
+  width: 100%;
+  padding: 0;
+  min-height: 60px;
+}
+
+main {
+  padding: 50px 40px 40px;
+  max-width: 1920px;
+  width: 100%;
+}
+
+input {
+  border: 0;
+}
+
+input::placeholder {
+  color: lightgrey;
+}
+
+input[type="radio"] {
+  appearance: none;
+  width: 0;
+  height: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  border: 0;
+  padding: 0;
+  background: 0;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+}
+
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.header-logo {
+  font-size: 47px;
+  margin-right: 20px;
+  margin-left: 33px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  flex-shrink: 0;
+}
+
+.header-link {
+  font-size: 16px;
+  height: 100%;
+  padding: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.header-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #34495e;
+  background-color: #34495e;
+  height: 100%;
+  color: white;
+  width: 100%;
+}
+
+.header-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  transform: translate(-50%, -50%);
+}
+
+.header-search-input {
+  background: transparent;
+  color: white;
+  height: 100%;
+  width: 100%;
+  padding: 20px 10px 20px 55px;
+  margin: 0;
+  margin-right: 1px;
+}
+
+.header-search-input::placeholder {
+  color: lightgrey;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
