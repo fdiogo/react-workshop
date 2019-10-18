@@ -1,0 +1,40 @@
+.movie-details {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	padding: 20px;
+	max-width: 800px;
+	background-color: #ffffff;
+}
+  
+.movie-details-name {
+	margin-bottom: 5px;
+}
+  
+.movie-details-year {
+	font-size: 16px;
+	margin-left: 5px;
+	margin-bottom: 6px;
+	color: grey;
+}
+
+.movie-details-poster {
+	max-width: 300px;
+	margin-right: 20px;
+}
+
+.movie-details-summary {
+	width: 440px;
+}
+
+.movie-details-overview {
+	margin-top: 0;
+}
+
+.movie-details-votes {
+	position: relative;
+	display: inline-flex;
+	color: black;
+	font-weight: bold;
+	font-size: 24px;
+}

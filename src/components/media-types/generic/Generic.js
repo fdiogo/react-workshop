@@ -4,8 +4,21 @@ import './Generic.css';
 import Rating from '../../Rating';
 
 function Generic(props) {
-    const { data } = props;
-    const { name, title, vote_average, first_air_date, release_date } = data;
+    const { data, configuration } = props;
+    const {
+        images: { base_url }
+    } = configuration;
+
+    const {
+        name,
+        title,
+        poster_path,
+        backdrop_path,
+        vote_average,
+        first_air_date,
+        release_date,
+        profile_path
+    } = data;
 
     const premierYear =
         (first_air_date || release_date) &&
@@ -13,7 +26,13 @@ function Generic(props) {
 
     return (
         <div className="media">
-            <img className="media-poster" src={null} alt={name || title} />
+            <img
+                className="media-poster"
+                src={`${base_url}/original${poster_path ||
+                    backdrop_path ||
+                    profile_path}`}
+                alt={name || title}
+            />
             <div className="media-summary">
                 <span className="media-votes">
                     <span className="media-votes-average">

@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SearchResults.css';
 
+import Tv from '../media-types/tv';
+import Movie from '../media-types/movie';
 import Generic from '../media-types/generic';
 
-function SearchResults(props) {
-    const { query } = props;
+import Pager from '../pager';
 
-    // TODO: use setData to set the results
+function SearchResults(props) {
+    const { query, configuration } = props;
+
+    const [page, setPage] = useState(1);
     const [data, setData] = useState({ results: [] });
 
-    // TODO: add a useEffect to fetch
+    useEffect(() => {
+        fetch(
+            `https://reactworkshop-api.herokuapp.com/3/search/multi?query=${query}&page=${page}`
+        )
+            .then(response => response.json())
+            .then(setData);
+    }, [query, page]);
 
     if (!query) {
         return null;
@@ -17,8 +27,30 @@ function SearchResults(props) {
 
     const cards = data.results.map(media => {
         switch (media.media_type) {
+            case 'tv':
+                return (
+                    <Tv
+                        key={media.id}
+                        data={media}
+                        configuration={configuration}
+                    />
+                );
+            case 'movie':
+                return (
+                    <Movie
+                        key={media.id}
+                        data={media}
+                        configuration={configuration}
+                    />
+                );
             default:
-                return <Generic key={media.id} data={media} />;
+                return (
+                    <Generic
+                        key={media.id}
+                        data={media}
+                        configuration={configuration}
+                    />
+                );
         }
     });
 
@@ -29,6 +61,13 @@ function SearchResults(props) {
                     <h1 className="search-results-query">
                         Results for '{query}'
                     </h1>
+                )}
+                {data && (
+                    <Pager
+                        current={page}
+                        total={data.total_pages}
+                        onChange={setPage}
+                    />
                 )}
             </div>
             <div className="search-results-body">{cards}</div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Search from './components/icons/Search';
 import Popcorn from './components/icons/Popcorn';
@@ -7,11 +7,18 @@ import SearchResults from './components/search-results/SearchResults';
 function App() {
     const [inputValue, setInputValue] = useState('');
     const [query, setQuery] = useState(null);
+    const [configuration, setConfiguration] = useState(null);
 
     const handleFormSubmit = event => {
         event.preventDefault();
         setQuery(inputValue);
     };
+
+    useEffect(() => {
+        fetch(`https://reactworkshop-api.herokuapp.com/3/configuration`)
+            .then(response => response.json())
+            .then(data => setConfiguration(data));
+    }, []);
 
     return (
         <div className="app">
@@ -29,7 +36,14 @@ function App() {
                     ></input>
                 </form>
             </header>
-            <main>{query && <SearchResults query={query} />}</main>
+            <main>
+                {query && (
+                    <SearchResults
+                        query={query}
+                        configuration={configuration}
+                    />
+                )}
+            </main>
         </div>
     );
 }
