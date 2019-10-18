@@ -13,6 +13,7 @@ function SearchResults(props) {
 
     const [page, setPage] = useState(1);
 
+    // TODO: Change these 3 states into a single useReducer
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState({ results: [] });
@@ -20,19 +21,26 @@ function SearchResults(props) {
     useEffect(() => {
         let canceled = false;
 
-        // TODO: set the appropriate state variables where you feel it's necessary
+        setIsLoading(true);
+        setError(null);
 
         const handleResolve = data => {
             if (canceled) return;
             setData(data);
+            setError(null);
+            setIsLoading(false);
         };
 
         const handleReject = () => {
             if (canceled) return;
+            setError('Could not fetch the results');
+            setIsLoading(false);
         };
 
         const handleError = error => {
             if (canceled) return;
+            setError(error);
+            setIsLoading(false);
         };
 
         fetch(
