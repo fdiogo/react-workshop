@@ -4,8 +4,10 @@ import './MovieDetails.css';
 import Modal from '../../../../modal';
 import Rating from '../../../../Rating';
 
+import useConfiguration from '../../../../../hooks/useConfiguration';
+
 function MovieDetails(props) {
-    const { partialData, onClose, configuration } = props;
+    const { partialData, onClose } = props;
     const {
         title,
         vote_average,
@@ -16,7 +18,7 @@ function MovieDetails(props) {
 
     const {
         images: { base_url, poster_sizes }
-    } = configuration;
+    } = useConfiguration();
 
     const premierYear = release_date && new Date(release_date).getFullYear();
 

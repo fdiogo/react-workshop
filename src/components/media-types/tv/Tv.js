@@ -3,12 +3,13 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Rating from '../../Rating';
 
 import TvDetails from './components/tv-details/TvDetails';
+import useConfiguration from '../../../hooks/useConfiguration';
 
 function Tv(props) {
-    const { data, configuration } = props;
+    const { data } = props;
     const {
         images: { base_url, poster_sizes }
-    } = configuration;
+    } = useConfiguration();
 
     const { id, name, poster_path, vote_average, first_air_date } = data;
 
@@ -67,7 +68,6 @@ function Tv(props) {
                     partialData={data}
                     data={details}
                     onClose={() => setIsOpen(false)}
-                    configuration={configuration}
                 />
             )}
         </Fragment>

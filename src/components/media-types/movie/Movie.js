@@ -4,12 +4,14 @@ import './Movie.css';
 import Rating from '../../Rating';
 import MovieDetails from './components/movie-details/MovieDetails';
 
+import useConfiguration from '../../../hooks/useConfiguration';
+
 function Movie(props) {
-    const { data, configuration } = props;
+    const { data } = props;
 
     const {
         images: { base_url, poster_sizes }
-    } = configuration;
+    } = useConfiguration();
 
     const { id, title, poster_path, vote_average, release_date } = data;
 
@@ -24,7 +26,7 @@ function Movie(props) {
         if (isOpen && !details) {
             fetch(`https://reactworkshop-api.herokuapp.com/3/movie/${id}`)
                 .then(response => response.json())
-                .then(setDetails);
+                .then(setDetails(details));
         }
     }, [details, isOpen, id]);
 
@@ -67,7 +69,6 @@ function Movie(props) {
                     partialData={data}
                     data={details}
                     onClose={() => setIsOpen(false)}
-                    configuration={configuration}
                 />
             )}
         </Fragment>

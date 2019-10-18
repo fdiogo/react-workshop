@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Season.css';
 
+import useConfiguration from '../../../../../hooks/useConfiguration';
+
 function Season(props) {
-    const { season, configuration } = props;
+    const { season } = props;
 
     const { air_date, episode_count, name, overview, poster_path } = season;
 
     const {
         images: { base_url }
-    } = configuration;
+    } = useConfiguration();
 
     const premierYear = air_date && new Date(air_date).getFullYear();
 
@@ -41,8 +43,7 @@ Season.propTypes = {
         overview: PropTypes.string.isRequired,
         poster_path: PropTypes.string,
         season_number: PropTypes.number.isRequired
-    }),
-    configuration: PropTypes.object
+    })
 };
 
 export default Season;

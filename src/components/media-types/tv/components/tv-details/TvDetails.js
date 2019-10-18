@@ -6,8 +6,10 @@ import Modal from '../../../../modal';
 import Rating from '../../../../Rating';
 import Season from '../season/Season';
 
+import useConfiguration from '../../../../../hooks/useConfiguration';
+
 function TvDetails(props) {
-    const { partialData, data = {}, onClose, configuration } = props;
+    const { partialData, data = {}, onClose } = props;
     const {
         name,
         vote_average,
@@ -19,7 +21,7 @@ function TvDetails(props) {
 
     const {
         images: { base_url, poster_sizes }
-    } = configuration;
+    } = useConfiguration();
 
     const [seasonId, setSeasonId] = useState();
     const selectedSeason = seasons.find(season => season.id === seasonId);
@@ -82,12 +84,7 @@ function TvDetails(props) {
                             </button>
                         ))}
                     </div>
-                    {selectedSeason && (
-                        <Season
-                            season={selectedSeason}
-                            configuration={configuration}
-                        />
-                    )}
+                    {selectedSeason && <Season season={selectedSeason} />}
                 </div>
             </div>
         </Modal>
