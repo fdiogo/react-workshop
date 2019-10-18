@@ -29,6 +29,7 @@ function Pager(props) {
                     Previous
                 </button>
             )}
+            Page {current} of {total}
             {current < indicators.length && (
                 <button
                     disabled={disabled}

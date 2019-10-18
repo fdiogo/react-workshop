@@ -1,68 +1,190 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Getting hooked to React
 
-## Available Scripts
+## Requirements
+- **Node**: >= 10.16.0
+- **Yarn**: >= 1.19.0
 
-In the project directory, you can run:
+## Setup
 
-### `yarn start`
+#### Clone the repository
+> git clone [git@github.com:fdiogo/react-workshop.git](https://github.com/fdiogo/react-workshop.git)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### If you have nvm installed, then run:
+> nvm use
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+#### Install dependencies
+> yarn install
 
-### `yarn test`
+#### Run the project
+> yarn start
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Challenges
+Each challenge has its own commit. Before you start the challenge you must checkout to the corresponding hash commit. Every challenge has a list of TODOs in the code to help you in the process.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Challenge 1
+Build search input with a button and text blow with the query, all this using `setState`.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+**Note**: we only want to show the query once the user has submitted it.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Todos
+- [Add state to the search input](./src/App.js#L32)
+- [Render the submitted query](./src/App.js)
 
-### `yarn eject`
+--- 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Challenge 2
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Add `useEffect` to fetch the search results.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Todos
+- [Add a useEffect](./src/components/search-results/SearchResults.js)
+- [Set the results in `data`](./src/components/search-results/SearchResults.js)
+  
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Challenge 3
 
-## Learn More
+Implement the closing detection for modals with a `useEffect` with a cleanup
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Todos
+- [Add a useEffect](./src/components/modal/Modal.js)
+- [Add a window mousedown listener to detect outside clicks](./src/components/modal/Modal.js)
+  - **Note**: use the `wasClickOutside` function for this
+- [Add a window keyup listener to detect `Escape` presses](./src/components/modal/Modal.js)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+### Challenge 4
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+Memoize the cards in the search results
 
-### Analyzing the Bundle Size
+Todos
+- [Wrap the map in a `useMemo`](./src/components/search-results/SearchResults.js)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+---
 
-### Making a Progressive Web App
+### Challenge 5
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Convert the value of the search input into a ref
 
-### Advanced Configuration
+Todos
+- [Refactor the `inputValue` into a ref](./src/App.js)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+---
 
-### Deployment
+### Challenge 6
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Use refs directly on elements
 
-### `yarn build` fails to minify
+Todos
+- [Remove the `inputValueRef` and use a ref directly on the input]('./src/App.js)
+- [Instead of `document.getElementById` use a ref]('./src/components/modal/Modal.js)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+---
+
+### Challenge 7
+
+Instead of prop drilling the API configuration create a shared context and consume it using `useContext` directly.
+
+Todos
+- [Move the `useEffect` that fetches the configuration into a context provider](./src/App.js)
+- [Add the context provider around the children in App.js]('./src/App.js)
+- Remove the configuration props in the tree and connect any component that needs it to the context
+- Create a custom hook that consumes the context. E.g `useConfiguration`
+
+---
+
+### Challenge 8
+
+Implement the loading and error state in `SearchResults` only using `useState`
+
+---
+
+### Challenge 9
+
+Convert the loading, error and data state into a single `useReducer`
+
+---
+
+### Challenge 10
+
+Move the reducer inside `SearchResults` into a shared context.
+
+---
+
+### Challenge 11
+
+Move the `fetch` inside the `SearchContextProvider`.
+
+
+# Future work
+
+We left you some suggestions for future work on this project if you feel like.
+These don't have solutions made by us so they're completely up to you.
+
+
+### Challenge 12
+
+Add caching to the search reducer.
+
+**Hint**: Use the page and query to determine if you already have the data in memory.
+
+---
+
+### Challenge 13
+
+Implement a component to render the `people` media type.
+
+---
+
+### Challenge 14
+
+Add a button to add a tv show or movie to your favorites.
+
+Links:
+- [Adding as favorite](https://developers.themoviedb.org/3/account/mark-as-favorite)
+
+---
+
+### Challenge 15
+
+Implement the favorites page.
+
+---
+
+### Challenge 16
+
+Add a button to add a tv show or movie to your watchlist.
+
+Links:
+- [Adding to the watchlist](https://developers.themoviedb.org/3/account/add-to-watchlist)
+
+---
+
+### Challenge 17
+
+Implement the watchlist page.
+
+---
+
+### Challenge 18
+
+Add filters for the type of media you'd like to search for.
+
+Links:
+- [Searching for movies](https://developers.themoviedb.org/3/search/search-movies)
+- [Searching for TV shows](https://developers.themoviedb.org/3/search/search-tv-shows)
+- [Searching for people](https://developers.themoviedb.org/3/search/search-people)
+
+---
+
+### Challenge 19
+
+Add a `discover` page
+
+---
+
+### Challenge 20
+
+Add the features you would find useful and deploy your app to [netlify](https://www.netlify.com/).
