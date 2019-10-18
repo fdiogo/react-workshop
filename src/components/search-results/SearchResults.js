@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './SearchResults.css';
 
 import Tv from '../media-types/tv';
@@ -8,49 +8,20 @@ import Loader from '../loader';
 
 import Pager from '../pager';
 
-function searchReducer(state, action) {
-    switch (action.type) {
-        case 'FETCH_START':
-            return {
-                ...state,
-                isLoading: true,
-                error: null
-            };
-        case 'FETCH_SUCCESS':
-            return {
-                isLoading: false,
-                error: null,
-                data: action.data
-            };
-        case 'FETCH_ERROR':
-            return {
-                ...state,
-                isLoading: false,
-                error: action.error
-            };
-        default:
-            return state;
-    }
-}
+import useSearch from '../../hooks/useSearch';
 
 function SearchResults(props) {
     const { query } = props;
 
     const [page, setPage] = useState(1);
 
-    // TODO: Move this into its own context provider
-    const [state, dispatch] = useReducer(searchReducer, {
-        error: null,
-        isLoading: false,
-        data: { results: [] }
-    });
-
-    // TODO: Consume the context provider here with your custom hook
+    const [state, dispatch] = useSearch();
     const { error, isLoading, data } = state;
 
     useEffect(() => {
         let canceled = false;
 
+        // TODO: Move this code inside SearchContextProvider
         dispatch({ type: 'FETCH_START' });
 
         const handleResolve = data => {
@@ -78,8 +49,10 @@ function SearchResults(props) {
             .then(handleResolve, handleReject)
             .catch(handleError);
 
+        // TODO: Use the new function in SearchContextProvider here
+
         return () => (canceled = true);
-    }, [query, page]);
+    }, [query, page, dispatch]);
 
     const cards = useMemo(() => {
         if (!data) {
