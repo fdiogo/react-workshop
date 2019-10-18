@@ -14,6 +14,9 @@ function wasClickOutside(event) {
 function Modal(props) {
     const { children, onClose } = props;
 
+    // TODO: Add a ref here to pass to the modal-content and delete `wasClickOutside`.
+    // Use the ref instead.
+
     useEffect(() => {
         const handleKeyUp = event => {
             if (event.key === 'Escape') {

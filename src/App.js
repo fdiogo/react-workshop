@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import Search from './components/icons/Search';
 import Popcorn from './components/icons/Popcorn';
 import SearchResults from './components/search-results/SearchResults';
 
 function App() {
-    // TODO: Change this into a useRef
-    const [inputValue, setInputValue] = useState('');
+    // TODO: Use this ref directly on the input
+    const inputValueRef = useRef('');
     const [query, setQuery] = useState(null);
     const [configuration, setConfiguration] = useState(null);
 
     const handleFormSubmit = event => {
         event.preventDefault();
-        setQuery(inputValue);
+        setQuery(inputValueRef.current);
     };
 
     useEffect(() => {
@@ -32,8 +32,9 @@ function App() {
                     <input
                         className="header-search-input"
                         placeholder="Search"
-                        value={inputValue}
-                        onChange={event => setInputValue(event.target.value)}
+                        onChange={event =>
+                            (inputValueRef.current = event.target.value)
+                        }
                     ></input>
                 </form>
             </header>
